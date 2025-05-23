@@ -1,7 +1,7 @@
-import appServer from '../web/index.js'
+import appServer from '../index.js'
 import http from 'http'
 import { Server } from 'socket.io'
-import logger from '../logger'
+import logger from '../../logger/index.js'
 
 const httpServer = http.createServer(appServer)
 const io = new Server(httpServer)

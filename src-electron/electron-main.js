@@ -3,7 +3,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import logger from './logger'
 import { dbInit } from './db'
-import { initIoServer } from './io'
+import { initIoServer } from './web/io'
+import { existsMediaPath, existsTmpPath } from './api/files/folder'
 import { runPythonScript, killPythonProcess } from './run_python'
 
 // needed in case process is undefined under Linux
@@ -13,10 +14,17 @@ const currentDir = fileURLToPath(new URL('.', import.meta.url))
 
 let mainWindow
 
-async function createWindow() {
+async function initServer() {
+  existsTmpPath()
+  logger.info('Check Tmp Path')
+  existsMediaPath()
+  logger.info('Check Media Path')
   await dbInit()
   logger.info('Database initialized')
   initIoServer(3000)
+}
+
+async function createWindow() {
   /**
    * Initial window options
    */
@@ -59,8 +67,9 @@ async function createWindow() {
   })
 }
 
-app.whenReady().then(() => {
-  createWindow()
+app.whenReady().then(async () => {
+  await initServer()
+  // createWindow()
   // Run Python script
   runPythonScript('player.py', [])
   logger.info('Python script started')
@@ -73,6 +82,6 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow()
+    // createWindow()
   }
 })
