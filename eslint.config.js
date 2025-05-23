@@ -14,7 +14,10 @@ export default [
      *
      * ESLint requires "ignores" key to be the only one in this object
      */
-    // ignores: []
+    ignores: [
+      'src-electron/run_python/player/.venv/**',
+      'src-electron/run_python/player/**/*.py'
+    ]
   },
 
   ...pluginQuasar.configs.recommended(),
@@ -32,7 +35,7 @@ export default [
    * pluginVue.configs["flat/recommended"]
    *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
    */
-  ...pluginVue.configs[ 'flat/essential' ],
+  ...pluginVue.configs['flat/essential'],
 
   {
     languageOptions: {
@@ -61,7 +64,7 @@ export default [
   },
 
   {
-    files: [ 'src-pwa/custom-service-worker.js' ],
+    files: ['src-pwa/custom-service-worker.js'],
     languageOptions: {
       globals: {
         ...globals.serviceworker
