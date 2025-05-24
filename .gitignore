@@ -31,3 +31,9 @@ yarn-error.log*
 
 # local .env files
 .env.local*
+
+# python virtual environments
+.venv
+__pycache__
+/src-electron/run_python/player/.venv
+

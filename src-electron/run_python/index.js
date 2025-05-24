@@ -33,10 +33,10 @@ function runPythonScript(scriptPath, args = []) {
   console.log(`Python script path: ${script}`)
   console.log(`Python path: ${pythonPath}`)
 
-  // 스크립트 실행
+  // 스크립트 실행 - Windows 경로 공백 문제 해결
   pythonProcess = spawn(pythonPath, [script, ...args], {
     stdio: ['pipe', 'pipe', 'pipe'],
-    shell: true
+    shell: false // shell을 false로 변경하여 경로 문제 해결
   })
 
   if (!pythonProcess || typeof pythonProcess.on !== 'function') {
@@ -51,7 +51,7 @@ function runPythonScript(scriptPath, args = []) {
   pythonProcess.stderr.on('data', (data) =>
     console.error(`Python stderr: ${data}`)
   )
-  pythonProcess.on('error', (error) => console.error(`Error: ${error.message}`))
+  pythonProcess.on('error', (error) => console.error(`Error: ${error}`))
   // 종료 처리
   pythonProcess.on('exit', (code) => {
     pythonProcess = null
